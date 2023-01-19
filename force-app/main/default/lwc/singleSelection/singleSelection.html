@@ -1,0 +1,17 @@
+<template>
+  <p>{label}</p>
+  <lightning-button-stateful
+    label-when-off="Choice 1"
+    label-when-on="Choice 1"
+    selected={isSelected}
+    onclick={handleClick}
+  >
+  </lightning-button-stateful>
+  <lightning-button-stateful
+    label-when-off="Choice 2"
+    label-when-on="Choice 2"
+    selected={isSelected2}
+    onclick={handleClick2}
+  >
+  </lightning-button-stateful>
+</template>

@@ -1,0 +1,22 @@
+<template>
+  <div class="slds-var-p-around_xx-small">
+    <lightning-combobox
+      name="progress"
+      label="Status"
+      value={value}
+      placeholder="Select Progress"
+      options={options}
+      onchange={handleChange}
+    ></lightning-combobox>
+  </div>
+  <div class="slds-var-p-around_xx-small">
+    <template for:each={allValues} for:item="val">
+        <lightning-pill
+            key={val}
+            label={val}
+            name={val}
+            onremove={handleRemove}
+        ></lightning-pill>
+    </template>
+  </div>
+</template>

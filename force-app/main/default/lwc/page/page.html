@@ -1,0 +1,11 @@
+<template>
+  <template if:true={page}>
+    <div class="slds-var-m-around_medium">
+      <template for:each={page.questions} for:item="question">
+        <div class="slds-show slds-is-relative" key={question.Id}>
+          <c-question question={question}></c-question>
+        </div>
+      </template>
+    </div>
+  </template>
+</template>

@@ -1,0 +1,31 @@
+<template>
+  <lightning-card title={survey.Name} icon-name="standard:survey">
+    <div class ="formQuestion"
+    >
+    <c-progress-indicator
+      count={pagesCount}
+      current={currentPageIndex}
+      onanimationend={handleAnimationEnd}
+    ></c-progress-indicator>
+    <div class="slds-var-m-around_medium">
+      <c-page page={currentPage}></c-page>
+    </div>
+    <template if:true={showSave}>
+      <lightning-button
+        class="slds-align_absolute-center slds-var-m-around_medium"
+        style="background-color: palette-green-70"
+        label="Submit"
+        variant="success"
+        icon-name="utility:save"
+        icon-position="center"
+        onclick={handleSave}
+      ></lightning-button>
+    </template>
+    <c-paginator
+      class="slds-show slds-is-relative slds-var-m-around_medium"
+      onprevious={handlePrevious}
+      onnext={handleNext}
+    ></c-paginator>
+  </div>
+  </lightning-card>
+</template>
