@@ -3,22 +3,10 @@
     <template if:true={question}>
       <div class = "slds-var-m-top_large">
       <div if:true={isShortText}>
-        <lightning-textarea
-          name="input3"
-          label={question.Name}
-          placeholder="type here..."
-          maxlength="200"
-        >
-        </lightning-textarea>
+        <c-text-response max-length="200" question={question} response={response} onquestionresponsechange={handleResponse}></c-text-response>
       </div>
       <div if:true={isFreeText}>
-        <lightning-textarea
-          name="input3"
-          label={question.Name}
-          placeholder="type here..."
-          maxlength="2000"
-        >
-        </lightning-textarea>
+        <c-text-response max-length="2000" question={question} response={response} onquestionresponsechange={handleResponse}></c-text-response>
       </div>
       <div if:true={isPickList}>
         <c-pick-list choices={question.choices}></c-pick-list>

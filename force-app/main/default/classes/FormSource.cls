@@ -4,6 +4,7 @@ public with sharing class FormSource {
         return [
             SELECT BrandingSetId, CreatedById, CreatedDate, Description, Id, IsDeleted, IsTemplate, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Name, SurveyId, SurveyStatus, SystemModstamp, VersionNumber
             FROM SurveyVersion
+            WHERE SurveyStatus = 'Active'
             WITH SECURITY_ENFORCED
             LIMIT 100
         ];

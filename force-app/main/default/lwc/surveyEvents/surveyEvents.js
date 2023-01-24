@@ -1,11 +1,8 @@
 export class QuestionResponseChangeEvent extends CustomEvent {
-    constructor(questionId, {value, displayValue}) {
+    constructor(questionId, response) {
         super('questionresponsechange', {
             bubbles: true,
-            detail: {
-                questionId,
-                response: { value, displayValue }
-            }
+            detail: { questionId, response }
         })
     }
 } 

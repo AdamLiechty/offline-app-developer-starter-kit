@@ -6,6 +6,16 @@ import getPages from '@salesforce/apex/FormSource.getPages';
 import getQuestions from '@salesforce/apex/FormSource.getQuestions';
 import getChoices from '@salesforce/apex/FormSource.getChoices';
 
+function bucket(arr, keyFn) {
+    return arr.reduce((map, x) => {
+        const key = keyFn(x);
+        const bucket = map.get(key) || [];
+        if (bucket.length === 0) map.set(key, bucket);
+        bucket.push(x);
+        return map;
+    }, new Map())
+}
+
 export default class FormRuntime extends LightningElement {
     @api recordId;
     @api objectApiName;
@@ -25,43 +35,6 @@ export default class FormRuntime extends LightningElement {
     mLoadingMessage = "Loading WorkOrder"
     //debug
     mockApex = false //Load mock JSON in place of Apex
-
-    // async connectedCallback() {
-    //     await this.openSurvey('0KdRO00000001Ls0AI')
-    // }
-
-    // @wire(getRecord, {recordId: '$recordId', fields: ['Account.Name']})
-    // async recordData(value) {
-    //     console.log(value)
-    //     await this.openSurvey('0KdRO00000001Ls0AI')
-    // }
-
-    // @wire(getRecord, {
-    //     recordId: '0WORO0000002Sje4AE',
-    //     fields: [
-    //         'WorkOrder.Id',
-    //         'WorkOrder.Subject',
-    //         'WorkOrder.Description',
-    //         'WorkOrder.Survey__c',
-    //         'WorkOrder.CreatedById',
-    //         'WorkOrder.CreatedDate',
-    //         'WorkOrder.OwnerId',
-    //     ],
-    // })
-    // recordData(value) {
-    //     const { data } = value;
-    //     if (data) {
-    //         this.record = data;
-    //         this.name = data.fields.Id.value;
-    //         console.log(`loaded record ${data.fields.Id.value}`);
-    //         if(this.record.fields.Survey__c){
-    //             this.openSurvey(this.record.fields.Survey__c.value)
-    //         }
-    //     } else {
-    //         // eslint-disable-next-line no-console
-    //         console.log('data was nothing');
-    //     }
-    // }
 
     versionList;
     questions;
@@ -142,40 +115,28 @@ export default class FormRuntime extends LightningElement {
                 // choices = await getChoices()
                 // pages = await getPages()
             }
-            this.mLoadingMessage = "Parsing Survey ..."
-            let version = versions.find((v) => v.SurveyId === surveyId && v.SurveyStatus === 'Active')
+            this.mLoadingMessage = "Reading Survey ..."
+            const version = versions.find((v) => v.SurveyId === surveyId && v.SurveyStatus === 'Active')
             this.mSurvey = { ...version }
-            this.mSurvey.pages = []
-            for (let i = 0; i < pages.length; i++) {
-                //Add Page to our Survey
-                if(pages[i].SurveyVersionId === version.Id) {
-                    let currentPage = { ...pages[i] }
-                    currentPage.questions = []
-                    this.mSurvey.pages.push( currentPage )
-                    for (let j = 0; j < questions.length; j++) {
-                        let question = { ...questions[j] }
-                        //Add Question to our Page
-                        if(question.SurveyPageId === currentPage.Id) {
-                            currentPage.questions.push( question )
-                            question.choices = []
-                            //Add Choices to our question
-                            for (let k = 0; k < choices.length; k++) {
-                                if(choices[k].QuestionId === question.Id) {
-                                    question.choices.push( {...choices[k] })
-                                }
-                            }
-                            question.choices =  question.choices.sort((a,b)=>{ return a.Name > b.Name ? 1 : -1 })
-                        }
-                        currentPage.questions = currentPage.questions.sort((a,b)=>{ return a.QuestionOrder > b.QuestionOrder ? 1 : -1 })
-                    }
-                }
-                this.mSurvey.pages = this.mSurvey.pages.sort((a,b)=>{ return a.Name > b.Name ? 1 : -1 })
-            }
-        console.log(`Parsing Completed`)
-        console.log(this.mSurveyPages)
-        this.mShowSurvey = true
-        this.mShowLoading = false
 
+            const questionsByPage = bucket(questions, q => q.SurveyPageId);
+            const choicesByQuestion = bucket(choices, c => c.QuestionId);
+
+            this.mSurvey.pages = pages.filter(p => p.SurveyVersionId === version.Id).map(p => {
+                const currentPage = { ...p };
+                const pageQuestions = questionsByPage.get(currentPage.Id) || [];
+                currentPage.questions = pageQuestions.map(q => {
+                    const question = { ...q };
+                    question.choices = choicesByQuestion.get(q.Id) || [];
+                    question.choices.sort((a,b)=>{ return a.Name > b.Name ? 1 : -1 });
+                    return question;
+                }).sort((a,b) => a.QuestionOrder - b.QuestionOrder);
+                return currentPage;
+            }).sort((a, b) => a.Name > b.Name ? 1 : -1);
+
+            console.log(`Reading Complete`);
+            this.mShowSurvey = true
+            this.mShowLoading = false
         }
     }
 
