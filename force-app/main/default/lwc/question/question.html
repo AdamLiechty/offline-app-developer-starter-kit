@@ -30,7 +30,7 @@
         </lightning-input>
       </div>
       <div if:true={isMultiChoice}>
-        <c-multi-pick-list></c-multi-pick-list>
+        <c-multi-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-multi-pick-list>
       </div>
       <div if:true={isRadioButton}>
         <c-single-selection
