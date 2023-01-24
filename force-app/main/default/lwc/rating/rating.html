@@ -1,8 +1,15 @@
 <template>
-    <p>{label}</p>
-    <lightning-button-icon-stateful icon-name="utility:favorite" selected={star1State} onclick={handleStar1Click} alternative-text="Star"></lightning-button-icon-stateful>
-    <lightning-button-icon-stateful icon-name="utility:favorite" selected={star2State} onclick={handleStar2Click} alternative-text="Star" class="slds-m-left_xx-small"></lightning-button-icon-stateful>
-    <lightning-button-icon-stateful icon-name="utility:favorite" selected={star3State} onclick={handleStar3Click} alternative-text="Star" class="slds-m-left_xx-small"></lightning-button-icon-stateful>
-    <lightning-button-icon-stateful icon-name="utility:favorite" selected={star4State} onclick={handleStar4Click} alternative-text="Star" class="slds-m-left_xx-small"></lightning-button-icon-stateful>
-    <lightning-button-icon-stateful icon-name="utility:favorite" selected={star5State} onclick={handleStar5Click} alternative-text="Star" class="slds-m-left_xx-small"></lightning-button-icon-stateful>
+    <p>{question.label}</p>
+    <template for:each={choices} for:item="choice">
+        <lightning-button-icon-stateful
+            key={choice.Id}
+            class="slds-var-m-right_xx-small"
+            icon-name="utility:favorite"
+            selected={choice.selected}
+            data-id={choice.Id}
+            data-name={choice.Name}
+            onclick={handleClick}
+            alternative-text={choice.Name}>
+        </lightning-button-icon-stateful>
+    </template>
 </template>

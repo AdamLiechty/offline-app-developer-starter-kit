@@ -16,6 +16,8 @@ export default class FormPresenter extends LightningElement {
     @track
     showSave = false
 
+    responses = {}
+
 
     connectedCallback() {
         if (this.survey.pages) {
@@ -59,7 +61,14 @@ export default class FormPresenter extends LightningElement {
         }
     }
 
+    handleResponse(e) {
+        const { questionId, response } = e.detail;
+        this.responses = {...this.responses, [questionId]: response};
+        console.log(this.responses)
+    }
+
     handleSave() {
+        console.log(this.responses);
         history.back()// close window
     }
 }

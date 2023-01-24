@@ -1,4 +1,5 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
+import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
 /*
     Survey Question Types
@@ -18,45 +19,31 @@ import { LightningElement, api, track } from 'lwc';
 */
 export default class SurveyQuestion extends LightningElement {
     @api question
-    @track typeFreeText
-    @track typePickList
-    @track typeShortText
-    @track typeBoolean
-    @track typeRating
-    @track typeSlider
-    @track typeDate
-    @track typeMultiChoice
-    @track typeNPS
-    @track typeStackRank
-    @track typeRating
-    @track typeCSAT
-    @track typeRadioButton
-    @track choices
+    @api responses
 
-    connectedCallback(){
-        if( this.question) {
-            console.log(this.question.QuestionType)
-            this.typeFreeText = this.question.QuestionType === 'FreeText'
-            this.typeShortText = this.question.QuestionType === 'ShortText'
-            this.typePickList = this.question.QuestionType === 'Picklist'
-            this.typeBoolean = this.question.QuestionType === 'Boolean'
-            this.typeRating = this.question.QuestionType === 'Rating'
-            this.typeSlider = this.question.QuestionType === 'Slider'
-            this.typeDate = this.question.QuestionType === 'Date'
-            this.typeMultiChoice = this.question.QuestionType === 'MultiChoice'
-            this.typeNPS = this.question.QuestionType === 'NPS'
-            this.typeStackRank = this.question.QuestionType === 'StackRank'
-            this.typeRating = this.question.QuestionType === 'Rating'
-            this.typeCSAT = this.question.QuestionType === 'CSAT'
-            this.typeRadioButton = this.question.QuestionType === 'RadioButton'
-        }
+    isType(type) {
+        return this.question.QuestionType === type
     }
 
-    @api
-    get questionType() {
-        return this.question.QuestionType 
+    get response() {
+        return this.question && this.responses[this.question.Id];
     }
 
+    get isFreeText() { return this.isType('FreeText'); }
+    get isShortText() { return this.isType('ShortText'); }
+    get isPickList() { return this.isType('Picklist'); }
+    get isBoolean() { return this.isType('Boolean'); }
+    get isRating() { return this.isType('Rating'); }
+    get isSlider() { return this.isType('Slider'); }
+    get isDate() { return this.isType('Date'); }
+    get isMultiChoice() { return this.isType('MultiChoice'); }
+    get isNPS() { return this.isType('NPS'); }
+    get isStackRank() { return this.isType('StackRank'); }
+    get isRating() { return this.isType('Rating'); }
+    get isCSAT() { return this.isType('CSAT'); }
+    get isRadioButton() { return this.isType('RadioButton'); }
 
-
+    handleResponse(e) {
+        this.dispatchEvent(new QuestionResponseChangeEvent(this.question.Id, e.detail.response));
+    }
 }

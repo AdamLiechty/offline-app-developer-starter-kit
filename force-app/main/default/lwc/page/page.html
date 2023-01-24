@@ -3,7 +3,7 @@
     <div class="slds-var-m-around_medium">
       <template for:each={page.questions} for:item="question">
         <div class="slds-show slds-is-relative" key={question.Id}>
-          <c-question question={question}></c-question>
+          <c-question question={question} responses={responses} onquestionresponsechange={handleResponse}></c-question>
         </div>
       </template>
     </div>

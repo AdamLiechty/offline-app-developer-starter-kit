@@ -2,7 +2,7 @@
   <!-- Can we dynamically inject the component instead of dumb if directives?  -->
     <template if:true={question}>
       <div class = "slds-var-m-top_large">
-      <div if:true={typeShortText}>
+      <div if:true={isShortText}>
         <lightning-textarea
           name="input3"
           label={question.Name}
@@ -11,7 +11,7 @@
         >
         </lightning-textarea>
       </div>
-      <div if:true={typeFreeText}>
+      <div if:true={isFreeText}>
         <lightning-textarea
           name="input3"
           label={question.Name}
@@ -20,17 +20,17 @@
         >
         </lightning-textarea>
       </div>
-      <div if:true={typePickList}>
+      <div if:true={isPickList}>
         <c-pick-list choices={question.choices}></c-pick-list>
       </div>
-      <div if:true={typeBoolean}>
+      <div if:true={isBoolean}>
         <p>{question.Name}</p>
         <c-like-dislike></c-like-dislike>
       </div>
-      <div if:true={typeRating}>
-        <c-rating label={question.Name}></c-rating>
+      <div if:true={isRating}>
+        <c-rating question={question} response={response} onquestionresponsechange={handleResponse}></c-rating>
       </div>
-      <div if:true={typeSlider}>
+      <div if:true={isSlider}>
         <lightning-slider
           label={question.Name}
           value="0"
@@ -38,22 +38,23 @@
           max="100"
         ></lightning-slider>
       </div>
-      <div if:true={typeDate}>
+      <div if:true={isDate}>
         <lightning-input type="date" name="input1" label={question.Name}>
         </lightning-input>
       </div>
-      <div if:true={typeMultiChoice}>
+      <div if:true={isMultiChoice}>
         <c-multi-pick-list></c-multi-pick-list>
       </div>
-      <div if:true={typeRadioButton}>
+      <div if:true={isRadioButton}>
         <c-single-selection
         label={question.Name}
         ></c-single-selection>
       </div>
-      <!-- <div if:true={typeNPS}>typeNPS Not Yet Implemented!!</div>
-      <div if:true={typeStackRank}>typeStackRank Not Yet Implemented!!</div>
-      <div if:true={typeCSAT}>typeCSAT Not Yet Implemented!!</div>
-      <p>{questionType}</p> -->
+      <!--
+      <div if:true={isNPS}>typeNPS Not Yet Implemented!!</div>
+      <div if:true={isStackRank}>typeStackRank Not Yet Implemented!!</div>
+      <div if:true={isCSAT}>typeCSAT Not Yet Implemented!!</div>
+      -->
     </div>
     </template>
 </template>

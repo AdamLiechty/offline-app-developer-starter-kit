@@ -1,5 +1,7 @@
 import { LightningElement, api, wire } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 export default class ViewAccountRecord extends LightningElement {
   @api recordId;
   @api objectApiName;
@@ -42,5 +44,14 @@ export default class ViewAccountRecord extends LightningElement {
 
   get recordDataExists() {
     return this.record && this.record.data;
+  }
+
+  exampleToast() {
+    const toastEvent = new ShowToastEvent({
+      title: 'Toast title',
+      message: 'Toast message. See https://developer.salesforce.com/docs/component-library/documentation/en/lwc/use_toast',
+      variant: 'info'
+    });
+    this.dispatchEvent(toastEvent);
   }
 }
