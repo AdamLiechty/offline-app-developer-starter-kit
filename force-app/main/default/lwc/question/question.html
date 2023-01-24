@@ -12,8 +12,7 @@
         <c-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-pick-list>
       </div>
       <div if:true={isBoolean}>
-        <p>{question.Name}</p>
-        <c-like-dislike></c-like-dislike>
+        <c-like-dislike question={question} response={response} onquestionresponsechange={handleResponse}></c-like-dislike>
       </div>
       <div if:true={isRating}>
         <c-rating question={question} response={response} onquestionresponsechange={handleResponse}></c-rating>

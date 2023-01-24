@@ -1,4 +1,5 @@
 <template>
+    <p>{question.Name}</p>
     <lightning-button-icon-stateful icon-name="utility:like" selected={likeState} onclick={handleLikeButtonClick} alternative-text="Like"></lightning-button-icon-stateful>
-    <lightning-button-icon-stateful icon-name="utility:dislike" selected={dislikeState} onclick={handleDislikeButtonClick} alternative-text="Dislike" class="slds-m-left_xx-small"></lightning-button-icon-stateful>
+    <lightning-button-icon-stateful icon-name="utility:dislike" selected={dislikeState} onclick={handleDislikeButtonClick} alternative-text="Dislike" class="slds-var-m-left_xx-small"></lightning-button-icon-stateful>
 </template>

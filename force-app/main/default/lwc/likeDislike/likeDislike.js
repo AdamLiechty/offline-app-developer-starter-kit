@@ -1,16 +1,26 @@
-import { LightningElement,track } from 'lwc';
+import { LightningElement, api } from 'lwc';
+import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
 export default class LikeDislike extends LightningElement {
-    @track likeState = false;
-    @track dislikeState = false;
+    @api question
+    @api response
+
+    get likeState() { return this.response && this.response.value === true; }
+    get dislikeState() { return this.response && this.response.value === false; }
 
     handleLikeButtonClick() {
-        this.likeState = !this.likeState;
-        this.dislikeState = false;
+        const value = this.likeState ? null : true;
+        this.fireResponse(value);
     }
 
     handleDislikeButtonClick() {
-        this.dislikeState = !this.dislikeState;
-        this.likeState = false;
+        const value = this.dislikeState ? null : false;
+        this.fireResponse(value);
+    }
+
+    fireResponse(value) {
+        const response = value == null ? null : { value }
+        const responseEvent = new QuestionResponseChangeEvent(this.question.Id, response);
+        this.dispatchEvent(responseEvent);
     }
 }
