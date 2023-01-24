@@ -1,11 +1,10 @@
 <template>
     <lightning-combobox
-            name="progress"
-            label="Status"
-            value={value}
-            placeholder="Select Progress"
-            options={options}
-            onchange={handleChange} ></lightning-combobox>
-
-    <p>Selected value is: {value}</p>
+        name={question.Id}
+        label={question.Name}
+        value={responseValue}
+        placeholder="Select an option"
+        options={options}
+        onchange={handleChange}
+    ></lightning-combobox>
 </template>

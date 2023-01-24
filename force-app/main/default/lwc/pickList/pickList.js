@@ -1,20 +1,26 @@
 import { LightningElement, api } from 'lwc';
+import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
 export default class PickList extends LightningElement {
-    @api choices
-    value = 'inProgress';
+    @api question
+    @api response
+
+    get responseValue() { return this.response && this.response.value; }
 
     get options() {
-        let options = []
-        for (let index = 0; index < this.choices.length; index++) {
-            let choice = this.choices[index];
-            options.push({ label: choice.Name, value: choice.Id })
-            
-        }
-        return options
+        return this.question.choices.map(c => ({
+            value: c.Id,
+            label: c.Name
+        }));
     }
 
-    handleChange(event) {
-        this.value = event.detail.value;
-    }
+    handleChange(e) {
+        const choice = this.question.choices.find(c => c.Id === e.target.value);
+        const displayValue = choice && choice.Name;
+        const responseEvent = new QuestionResponseChangeEvent(this.question.Id, {
+            value: e.target.value,
+            displayValue
+        });
+        this.dispatchEvent(responseEvent);
+    }    
 }

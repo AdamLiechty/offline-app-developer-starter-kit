@@ -9,7 +9,7 @@
         <c-text-response max-length="2000" question={question} response={response} onquestionresponsechange={handleResponse}></c-text-response>
       </div>
       <div if:true={isPickList}>
-        <c-pick-list choices={question.choices}></c-pick-list>
+        <c-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-pick-list>
       </div>
       <div if:true={isBoolean}>
         <p>{question.Name}</p>
