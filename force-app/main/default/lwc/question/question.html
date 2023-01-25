@@ -18,24 +18,16 @@
         <c-rating question={question} response={response} onquestionresponsechange={handleResponse}></c-rating>
       </div>
       <div if:true={isSlider}>
-        <lightning-slider
-          label={question.Name}
-          value="0"
-          min="0"
-          max="100"
-        ></lightning-slider>
+        <c-slider question={question} response={response} onquestionresponsechange={handleResponse}></c-slider>
       </div>
       <div if:true={isDate}>
-        <lightning-input type="date" name="input1" label={question.Name}>
-        </lightning-input>
+        <c-date question={question} response={response} onquestionresponsechange={handleResponse}></c-date>
       </div>
       <div if:true={isMultiChoice}>
         <c-multi-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-multi-pick-list>
       </div>
       <div if:true={isRadioButton}>
-        <c-single-selection
-        label={question.Name}
-        ></c-single-selection>
+        <c-single-selection question={question} response={response} onquestionresponsechange={handleResponse}></c-single-selection>
       </div>
       <!--
       <div if:true={isNPS}>typeNPS Not Yet Implemented!!</div>
