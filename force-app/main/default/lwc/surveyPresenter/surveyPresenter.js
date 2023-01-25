@@ -1,6 +1,6 @@
 import { api, track, LightningElement } from 'lwc';
 
-export default class FormPresenter extends LightningElement {
+export default class SurveyPresenter extends LightningElement {
     @api survey = {}
     @api
     showsurvey

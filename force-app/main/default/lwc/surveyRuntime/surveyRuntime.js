@@ -1,7 +1,5 @@
 import { api, track, wire, LightningElement } from 'lwc';
-import { getRecord } from 'lightning/uiRecordApi';
 import getVersionList from '@salesforce/apex/FormSource.getVersionList';
-// import getSurveyList from '@salesforce/apex/FormSource.getSurveyList';
 import getPages from '@salesforce/apex/FormSource.getPages';
 import getQuestions from '@salesforce/apex/FormSource.getQuestions';
 import getChoices from '@salesforce/apex/FormSource.getChoices';
@@ -16,7 +14,7 @@ function bucket(arr, keyFn) {
     }, new Map())
 }
 
-export default class FormRuntime extends LightningElement {
+export default class SurveyRuntime extends LightningElement {
     @api recordId;
     @api objectApiName;
 

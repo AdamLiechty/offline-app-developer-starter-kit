@@ -5,12 +5,12 @@
           <c-loading-spinner label={loadingmessage}></c-loading-spinner>
         </div>
         <div if:true={mShowSurvey}>
-          <c-form-presenter
+          <c-survey-presenter
             survey={mSurvey}
             showsurvey={mShowSurvey}
             showloading={mShowLoading}
           >
-          </c-form-presenter>
+          </c-survey-presenter>
         </div>
       </lightning-layout-item>
     </lightning-layout>
