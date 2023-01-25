@@ -9,7 +9,7 @@ export default class Slider extends LightningElement {
 
     handleChange(e) {
         const responseEvent = new QuestionResponseChangeEvent(this.question.Id, {
-            value: e.target.value
+            value: +e.target.value
         });
         this.dispatchEvent(responseEvent);
     }    

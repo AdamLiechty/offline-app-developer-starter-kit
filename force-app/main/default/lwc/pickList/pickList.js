@@ -2,8 +2,8 @@ import { LightningElement, api } from 'lwc';
 import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
 export default class PickList extends LightningElement {
-    @api question
-    @api response
+    @api question;
+    @api response;
 
     get responseValue() { return this.response && this.response.value; }
 
@@ -22,5 +22,5 @@ export default class PickList extends LightningElement {
             displayValue
         });
         this.dispatchEvent(responseEvent);
-    }    
+    }
 }
