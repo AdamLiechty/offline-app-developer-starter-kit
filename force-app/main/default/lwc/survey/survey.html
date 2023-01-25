@@ -1,0 +1,17 @@
+<template>
+    <lightning-layout horizontal-align="center" vertical-align="start">
+      <lightning-layout-item padding="around-small" size="12">
+        <div if:true={mShowLoading}>
+          <c-loading-spinner label={mLoadingMessage}></c-loading-spinner>
+        </div>
+        <div if:true={mShowSurvey}>
+          <c-survey-presenter
+            survey={mSurvey}
+            showsurvey={mShowSurvey}
+            showloading={mShowLoading}
+          >
+          </c-survey-presenter>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+</template>
