@@ -1,4 +1,5 @@
 import { api, track, LightningElement } from 'lwc';
+import { ResponseSubmitEvent } from 'c/surveyEvents';
 
 export default class SurveyPresenter extends LightningElement {
     @api survey = {}
@@ -71,7 +72,10 @@ export default class SurveyPresenter extends LightningElement {
     }
 
     handleSave() {
-        console.log(this.responses);
-        history.back()// close window
+        this.dispatchEvent(new ResponseSubmitEvent(
+            this.survey.SurveyId,
+            this.survey.Id,
+            this.responses
+        ));
     }
 }

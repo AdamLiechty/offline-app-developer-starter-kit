@@ -1,4 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
+import { ResponseSubmitEvent } from 'c/surveyEvents';
 import getVersionList from '@salesforce/apex/FormSource.getVersionList';
 import getPages from '@salesforce/apex/FormSource.getPages';
 import getQuestions from '@salesforce/apex/FormSource.getQuestions';
@@ -128,6 +129,10 @@ export default class SurveyRuntime extends LightningElement {
         }
     }
 
+    handleResponseSubmit(event) {
+        const { surveyId, surveyVersionId, responses } = event.detail;
+        this.dispatchEvent(new ResponseSubmitEvent(surveyId, surveyVersionId, responses));
+    }
 
     getVersionListMock() {
         return [

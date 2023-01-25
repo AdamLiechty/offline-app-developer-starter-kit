@@ -6,3 +6,12 @@ export class QuestionResponseChangeEvent extends CustomEvent {
         })
     }
 } 
+
+export class ResponseSubmitEvent extends CustomEvent {
+    constructor(surveyId, surveyVersionId, responses) {
+        super('responsesubmit', {
+            bubbles: true,
+            detail: { surveyId, surveyVersionId, responses }
+        })
+    }
+}
