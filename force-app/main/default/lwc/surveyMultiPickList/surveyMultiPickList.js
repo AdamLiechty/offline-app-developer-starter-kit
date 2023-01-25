@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
-export default class MultiPickList extends LightningElement {
+export default class SurveyMultiPickList extends LightningElement {
     @api question
     @api response
 

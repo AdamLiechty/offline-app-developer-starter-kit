@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
-export default class TextResponse extends LightningElement {
+export default class SurveyTextResponse extends LightningElement {
     @api maxLength
     @api question
     @api response

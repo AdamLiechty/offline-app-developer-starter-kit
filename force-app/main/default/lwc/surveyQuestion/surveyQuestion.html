@@ -1,0 +1,39 @@
+<template>
+  <!-- Can we dynamically inject the component instead of dumb if directives?  -->
+    <template if:true={question}>
+      <div class = "slds-var-m-top_large">
+      <div if:true={isShortText}>
+        <c-survey-text-response max-length="200" question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-text-response>
+      </div>
+      <div if:true={isFreeText}>
+        <c-survey-text-response max-length="2000" question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-text-response>
+      </div>
+      <div if:true={isPickList}>
+        <c-survey-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-pick-list>
+      </div>
+      <div if:true={isBoolean}>
+        <c-survey-like-dislike question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-like-dislike>
+      </div>
+      <div if:true={isRating}>
+        <c-survey-rating question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-rating>
+      </div>
+      <div if:true={isSlider}>
+        <c-survey-slider question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-slider>
+      </div>
+      <div if:true={isDate}>
+        <c-survey-date question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-date>
+      </div>
+      <div if:true={isMultiChoice}>
+        <c-survey-multi-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-multi-pick-list>
+      </div>
+      <div if:true={isRadioButton}>
+        <c-survey-single-selection question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-single-selection>
+      </div>
+      <!--
+      <div if:true={isNPS}>typeNPS Not Yet Implemented!!</div>
+      <div if:true={isStackRank}>typeStackRank Not Yet Implemented!!</div>
+      <div if:true={isCSAT}>typeCSAT Not Yet Implemented!!</div>
+      -->
+    </div>
+    </template>
+</template>

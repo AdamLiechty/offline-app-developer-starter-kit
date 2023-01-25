@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { QuestionResponseChangeEvent } from 'c/surveyEvents';
 
-export default class PickList extends LightningElement {
+export default class SurveyPickList extends LightningElement {
     @api question;
     @api response;
 

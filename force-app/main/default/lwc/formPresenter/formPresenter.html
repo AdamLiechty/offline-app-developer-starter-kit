@@ -8,7 +8,7 @@
       onanimationend={handleAnimationEnd}
     ></c-progress-indicator>
     <div class="slds-var-m-around_medium">
-      <c-page page={currentPage} responses={responses} onquestionresponsechange={handleResponse}></c-page>
+      <c-survey-page page={currentPage} responses={responses} onquestionresponsechange={handleResponse}></c-survey-page>
     </div>
     <template if:true={showSave}>
       <lightning-button
