@@ -17,9 +17,9 @@
       <div if:true={isRating}>
         <c-survey-rating question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-rating>
       </div>
-      <div if:true={isSlider}>
+      <!-- Min/Max/Step not implemented <div if:true={isSlider}>
         <c-survey-slider question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-slider>
-      </div>
+      </div> -->
       <div if:true={isDate}>
         <c-survey-date question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-date>
       </div>
