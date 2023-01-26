@@ -37,27 +37,23 @@ export default class SurveyPresenter extends LightningElement {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
     }
 
+    transition(elementSelector, transitionClass) {
+        let question = this.template.querySelector(elementSelector)
+        question.classList.add(transitionClass)
+        // eslint-disable-next-line @lwc/lwc/no-async-operation
+        setTimeout(() => question.classList.remove(transitionClass), 500);
+    }
+
     handleNext() {
         if (this.currentPageIndex + 1 <= this.survey.pages.length - 1) {
-            let question = this.template.querySelector('.formQuestion')
-            question.classList.add('slideInRight')
-            // eslint-disable-next-line @lwc/lwc/no-async-operation
-            setTimeout( function(){
-                question.classList.remove('slideInRight')
-            },500)
+            this.transition('.formQuestion', 'slideInRight');
             this.currentPage = this.survey.pages[++this.currentPageIndex]
         }
     }
 
     handlePrevious() {
         if (this.currentPageIndex - 1 >= 0) {
-            this.template.querySelector('.formQuestion').classList.add('fadeLeftSlide');
-            let question = this.template.querySelector('.formQuestion')
-            question.classList.add('slideInLeft');
-            // eslint-disable-next-line @lwc/lwc/no-async-operation
-            setTimeout( function(){
-                question.classList.remove('slideInLeft')
-            },500)
+            this.transition('.formQuestion', 'slideInLeft');
             this.currentPage = this.survey.pages[--this.currentPageIndex]
         }
     }
