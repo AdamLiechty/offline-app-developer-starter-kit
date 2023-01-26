@@ -34,26 +34,18 @@ export default class SurveyPresenter extends LightningElement {
         else{
             this.showSave = false;
         }
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-    }
-
-    transition(elementSelector, transitionClass) {
-        let question = this.template.querySelector(elementSelector)
-        question.classList.add(transitionClass)
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-        setTimeout(() => question.classList.remove(transitionClass), 500);
     }
 
     handleNext() {
         if (this.currentPageIndex + 1 <= this.survey.pages.length - 1) {
-            this.transition('.formQuestion', 'slideInRight');
+            animate(this.template.querySelector('.formQuestion'), 'slideInRight');
             this.currentPage = this.survey.pages[++this.currentPageIndex]
         }
     }
 
     handlePrevious() {
         if (this.currentPageIndex - 1 >= 0) {
-            this.transition('.formQuestion', 'slideInLeft');
+            animate(this.template.querySelector('.formQuestion'), 'slideInLeft');
             this.currentPage = this.survey.pages[--this.currentPageIndex]
         }
     }
@@ -74,4 +66,19 @@ export default class SurveyPresenter extends LightningElement {
             this.responses
         ));
     }
+}
+
+// Applies a CSS class to an element in order to trigger an
+function animate(element, animationClass) {
+    if (element._oldAnimationClass) {
+        element.classList.remove(element._oldAnimationClass)
+    }
+    requestAnimationFrame(() => {
+        // DOM has processed the element without any existing animation class.
+        requestAnimationFrame(() => {
+            // Add the animation class in a new animation frame.
+            element.classList.add(animationClass)
+            element._oldAnimationClass = animationClass;
+        })
+    })
 }
