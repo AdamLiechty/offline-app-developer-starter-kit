@@ -20,9 +20,9 @@
       <!-- Min/Max/Step not implemented <div if:true={isSlider}>
         <c-survey-slider question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-slider>
       </div> -->
-      <div if:true={isDate}>
+      <!-- Bug in date picker <div if:true={isDate}>
         <c-survey-date question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-date>
-      </div>
+      </div> -->
       <div if:true={isMultiChoice}>
         <c-survey-multi-pick-list question={question} response={response} onquestionresponsechange={handleResponse}></c-survey-multi-pick-list>
       </div>
