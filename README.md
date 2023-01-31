@@ -162,3 +162,84 @@ The above components have been adapted from the [lwc-recipes repository](https:/
 ## Current Limitations
 
 - The Offline App mobile build is required to view deployed components.
+
+## Surveys Proof of Concept Sample Code
+
+`force-app/main/default` contains a working demo of survey-taking, with some limitations.
+
+1. `classes/`: An Apex class `SurveySource` contains cacheable functions to get raw survey
+    definition records.
+2. `lwc/`
+   1. `survey` accepts a `surveyId` property. It `@wire`s the results from the cacheable
+      `SurveySource` Apex functions, and puts that data into a survey hierarchy.
+   2. `surveyPresenter` accepts a `survey` property with the hierarchy constructed in the `survey`
+      LWC. This and all composed components do not require any `@wire`d data. It aggregates all
+      responses from pages/questions. When the user taps 'Submit', it fires a `ResponseSubmitEvent`.
+   3. `surveyPage` displays a single page of questions.
+   4. `surveyQuestion` shows a single question on a page. It renders one of multiple type-specific
+      question LWCs, for example `surveyTextResponse`. Each question LWC:
+      1. Accepts a `question` property, defining the question posed to the user.
+      2. Accepts a `response` property, which is the user's current response to that question,
+         possibly undefined.
+      3. Fires a `QuestionResponseChangeEvent` whenever the user's response to that question changes.
+   5. `surveyRuntime`. While the LWCs above could be adopted as-is, this component is merely an
+      example of how to compose the `survey` component and handle the `ResponseSubmitEvent`. In this
+      example, an `OfflineSurveyResponse__c` record is created. `createRecord` is supported offline,
+      so records will be synced when back online. This custom object simply saves the JSON of the
+      survey responses. In a real implementation, a different custom object could be used with a
+      diffrent structure. There could be triggers that process the responses on the server when such
+      records are synced. Or the `ResponseSubmitEvent` could be handled in a completely different
+      way consistent with your needs.
+3. `objects/OfflineSurveyResponse` is the custom object that serves as one just example of how
+   users' survey responses could be created whether offline or online, and synced to the org when
+   there is connectivity.
+
+### Limitations
+
+This surveys proof of concept serves as a pattern for having some survey-taking capabilities in
+the Offline App in the Summer '23 timeframe. Limitations include:
+
+1. Field types. Only FreeText, ShortText, Picklist, Boolean, Rating, MultiChoice, and RadioButton
+   are supported in these components.
+2. Conditional logic for pages and questions is not supported at this time. If some questions do not
+   apply basedon how a user answers a question, then question text has to be used to direct the user
+   to manually skip those questions.
+3. SurveyResponse and SurveyQuestionResponse objects are not yet compatible with Offline App, which
+   is why the custom object is used in this sample code.
+4. The Apex class `SurveySource` is the means that allows Offline App to be able to prefetch survey
+   definitions for use whether offline or online. Each function must be annotated with
+   `@AuraEnabled(cacheable=true)`. Despite this naming, it does allow the response to be
+   cached for offline use by LWC. Note that the client will not attempt to re-fetch such survey data for at least 15
+   minutes, even when online.
+
+### Integration steps
+
+The following are some recommended steps to integrate the sample code in this repo into your
+specific solution.
+
+1. Copy `lwc/survey*` components, as well as `loadingSpinner`, `paginator`, and `progressIndicator` to your project.
+2. Most of these components are likely usable as-is, except for `surveyRuntime` which is only an
+example of how to consume the top-level `survey` component and handle the `ResponseSubmitEvent`.
+The `surveyId` can be dynamic in the LWC that composes the `survey`.
+3. Like `quickActions/Account.survey.quickAction-meta.xml` you will need a LWC quick action to point
+   to your component. It is recommended that this target component be devoted to survey-taking.
+   However, another LWC could navigate to it using Lightning navigation and a page reference similar to:
+   ```json
+   {
+     "type": "standard__quickAction",
+     "attributes": {
+       "actionName": "Account.survey"
+     },
+     "state": {
+       "recordId": "xyz",
+       "objectApiName": "Account"
+     }
+   }
+   ```
+4. Copy `classes/SurveSource/`. The `@AuraEnabled(cacheable=true)` functions are imported by the
+   `survey` LWC. Note that these functions pull all records of each type in the org with a limit 100
+   (which could be increased). Additional changes could allow more filtered fetching of records
+   based on SurveyVersionId, by adding a parameter to many of these functions, in order to avoid hitting limits when an org has many surveys/versions/pages/questions/options.
+5. Copy custom object `objects/OfflineSurveyResponse__c` or create your own and modify the
+`ResponseSubmitEvent` handler to match. One recommended next step is to implement a trigger upon the
+org receiving these new records that ingests the response data and loads it into its desired destination.

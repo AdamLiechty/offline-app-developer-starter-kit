@@ -1,9 +1,9 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ResponseSubmitEvent } from 'c/surveyEvents';
-import getVersionList from '@salesforce/apex/FormSource.getVersionList';
-import getPages from '@salesforce/apex/FormSource.getPages';
-import getQuestions from '@salesforce/apex/FormSource.getQuestions';
-import getChoices from '@salesforce/apex/FormSource.getChoices';
+import getVersionList from '@salesforce/apex/SurveySource.getVersionList';
+import getPages from '@salesforce/apex/SurveySource.getPages';
+import getQuestions from '@salesforce/apex/SurveySource.getQuestions';
+import getChoices from '@salesforce/apex/SurveySource.getChoices';
 import mockData from './mockData';
 
 function bucket(arr, keyFn) {
@@ -91,10 +91,10 @@ export default class SurveyRuntime extends LightningElement {
             let pages
             if (this.mockApex) {
                 console.log(`!!Using Mock Data!!`)
-                versions = this.getVersionListMock()
-                questions = this.getQuestionsMock()
-                choices = this.getChoicesMock()
-                pages = this.getPagesMock()
+                versions = mockData.versionList
+                questions = mockData.questions
+                choices = mockData.choices
+                pages = mockData.pages
             } else {
                 versions = this.versionList;
                 questions = this.questions;
@@ -129,21 +129,5 @@ export default class SurveyRuntime extends LightningElement {
     handleResponseSubmit(event) {
         const { surveyId, surveyVersionId, responses } = event.detail;
         this.dispatchEvent(new ResponseSubmitEvent(surveyId, surveyVersionId, responses));
-    }
-
-    getVersionListMock() {
-        return mockData.versionList;
-    }
-
-    getQuestionsMock() {
-        return mockData.questions;
-    }
-
-    getChoicesMock(){
-        return mockData.choices;
-    }
-
-    getPagesMock() {
-        return mockData.pages;
     }
 }

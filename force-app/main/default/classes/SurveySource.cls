@@ -1,4 +1,4 @@
-public with sharing class FormSource {
+public with sharing class SurveySource {
     @AuraEnabled(cacheable=true)
     public static List<SurveyVersion> getVersionList() {
         return [

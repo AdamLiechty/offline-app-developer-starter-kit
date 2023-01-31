@@ -34,14 +34,14 @@ export default class SurveyQuestion extends LightningElement {
     get isPickList() { return this.isType('Picklist'); }
     get isBoolean() { return this.isType('Boolean'); }
     get isRating() { return this.isType('Rating'); }
+    get isMultiChoice() { return this.isType('MultiChoice'); }
+    get isRadioButton() { return this.isType('RadioButton'); }
+
     get isSlider() { return this.isType('Slider'); }
     get isDate() { return this.isType('Date'); }
-    get isMultiChoice() { return this.isType('MultiChoice'); }
     get isNPS() { return this.isType('NPS'); }
     get isStackRank() { return this.isType('StackRank'); }
-    get isRating() { return this.isType('Rating'); }
     get isCSAT() { return this.isType('CSAT'); }
-    get isRadioButton() { return this.isType('RadioButton'); }
 
     handleResponse(e) {
         this.dispatchEvent(new QuestionResponseChangeEvent(this.question.Id, e.detail.response));
