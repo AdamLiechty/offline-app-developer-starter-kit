@@ -48,5 +48,28 @@
         </template>
 
         <c-account-related-contacts record-id={recordId}></c-account-related-contacts>
+
+        <lightning-layout horizontal-align="spread">
+            <lightning-layout-item padding="around-small">
+                <lightning-button variant="base" label="Toast example" type="button" onclick={exampleToast} class="slds-var-m-left_x-small"></lightning-button>
+                <lightning-button variant="base" label="Create custom record" type="button" onclick={createCustom} class="slds-var-m-left_x-small"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div class="slds-var-m-top_medium slds-var-m-bottom_x-large">
+            <h2 class="slds-text-heading_small">
+                lightning-formatted-url
+            </h2>
+            <div class="slds-var-p-around_medium">
+                <p><lightning-formatted-url value="https://dro000000afsb2a0.test1.lightning.pc-rnd.force.com/lightning/r/Account/001RO000003zdy5YAA/view" label="Acme Account formatted-url" target="_blank"></lightning-formatted-url></p>
+                <p><lightning-formatted-url value="https://salesforce.com" label="salesforce.com formatted-url" target="_blank" ></lightning-formatted-url></p>
+            </div>
+            <h2 class="slds-text-heading_small">
+                Bare &lt;a&gt;
+            </h2>
+            <div class="slds-var-p-around_medium">
+                <p><a href="https://dro000000afsb2a0.test1.lightning.pc-rnd.force.com/lightning/r/Account/001RO000003zdy5YAA/view">Acme Account bare link</a></p>
+                <p><a href="https://salesforce.com">salesforce.com bare link</a></p>
+            </div>
+        </div>
     </div>
 </template>
