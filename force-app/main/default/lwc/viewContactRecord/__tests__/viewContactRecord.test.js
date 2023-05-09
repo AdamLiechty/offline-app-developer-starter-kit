@@ -32,7 +32,6 @@ describe("c-view-contact-record", () => {
     getRecord.emit(mockGetRecord);
 
     // Resolve a promise to wait for a re-render of the new content
-
     await Promise.resolve();
 
     // ensure record header exists
