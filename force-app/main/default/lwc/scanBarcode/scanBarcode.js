@@ -1,5 +1,7 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track, wire } from "lwc";
 import { getBarcodeScanner } from "lightning/mobileCapabilities";
+
+import { graphql, gql } from "lightning/uiGraphQLApi";
 
 export default class ScanBarcode extends LightningElement {
   scanner;
@@ -11,6 +13,53 @@ export default class ScanBarcode extends LightningElement {
     if (this.scanner == null || !this.scanner.isAvailable()) {
       console.warn("Scanner not initialized!");
     }
+  }
+
+  renderedCallback() {
+    if (!this.isScannerLaunched) {
+      this.isScannerLaunched = true;
+      this.doScan();
+    }
+  }
+
+  @wire(graphql, {
+    query: gql`
+      query articleBarcodeLookup($ean: String) {
+        uiapi {
+          query {
+            Article__c(where: { EAN__c: { eq: $ean } }) {
+              edges {
+                node {
+                  Id
+                  Name {
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: "$graphqlVariables",
+    operationName: "articleBarcodeLookup",
+  })
+  graphqlResult({ data /* errors */ }) {
+    console.log("data", data);
+    if (data) {
+      const { edges } = data.uiapi.query.Article__c;
+      const article = edges && edges[0];
+      this.articleId = article && article.node.Id;
+    } else {
+      this.articleId = "";
+    }
+  }
+  articleId;
+
+  get graphqlVariables() {
+    return {
+      ean: this.scannedBarcode,
+    };
   }
 
   doScan() {
